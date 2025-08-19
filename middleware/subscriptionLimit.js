@@ -13,7 +13,7 @@ const subscriptionlimitMiddleware = async (req, res, next) => {
     const subapikey = await SubscriptionApikey.findOne({
       "apikey.hashedkey": hashedapikey,
     });
-
+   
     const value = subapikey?.subscription?.apicount.find(
       (apicountval) => apicountval?.apitype === reqpath
     );

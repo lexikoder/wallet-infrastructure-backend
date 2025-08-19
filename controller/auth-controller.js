@@ -10,7 +10,7 @@ const AppError = require("../utils/appError");
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 const { v4: uuidv4 } = require("uuid");
 const { encrypt, decrypt } = require("../utils/encrypt");
-const crypto = require("crypto");
+
 
 otpCache = {};
 const acesstokenpiration = 1; //in minutes
@@ -61,6 +61,7 @@ const verifyOtp = tryCatch(async (req, res) => {
   if (otpCache[email].otp === otp.trim()) {
     // delete otpCache[email] should occur when you register
     otpCache[email].verified = true;
+    console.log("successfull requested otp", Date)
     return res.status(200).json({
       success: true,
       message: "otp verified successfuly",
@@ -83,7 +84,7 @@ const RegisterUser = tryCatch(async (req, res) => {
   const checkEmailExist = await User.findOne({ email: userData?.email });
 
   if (checkUserNameExist || checkEmailExist) {
-    throw new AppError("email or password already exist", 404);
+    throw new AppError("email or username already exist", 404);
   }
 
   if (!otpCache[userData.email] || !otpCache[userData.email]?.verified) {

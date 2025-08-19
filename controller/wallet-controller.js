@@ -3,12 +3,7 @@ const tryCatch = require("../utils/tryCatch");
 const networks = require("../config/networks");
 const erc20Abi = require("../config/abi");
 const MAX_GAS_PRICE = require("../config/constants");
-const {
-  client: clientint,
-  readcontract,
-  sendeth,
-  senderc20,
-} = require("../utils/contractInteraction");
+const {client: clientint,readcontract,sendeth,senderc20,} = require("../utils/contractInteraction");
 const { generateMnemonic, mnemonicToAccount } = require("viem/accounts");
 const { wordlist } = require("@scure/bip39/wordlists/english");
 const { privateKeyToAccount, waitForTransaction } = require("viem/accounts");
@@ -42,7 +37,9 @@ const createWallet = tryCatch(async (req, res) => {
   };
   // const privatekey = bytesToHex(account.getHdKey().privateKey);
   const createdwallet = await Wallet.create(walletdata);
+  
   if (createdwallet) {
+    console.log("successfull", Date)
     return res.status(201).json({
       success: true,
       message: "wallet created successfully",
