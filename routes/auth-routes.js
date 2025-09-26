@@ -1,6 +1,7 @@
 const express = require("express")
 const {reqOtp,verifyOtp,RegisterUser,LoginUser,refreshAccessToken,logout,decryptApikey} = require("../controller/auth-controller")
 const {ratelimitingOtp} = require("../middleware/rateLimiting")
+const authMiddleware = require("../middleware/authentication-middleware")
 const router = express.Router()
 
 
@@ -11,8 +12,8 @@ router.post("/verifyotp",ratelimitingOtp(),verifyOtp)
 router.post("/register",RegisterUser)
 router.post("/login",LoginUser)
 router.post("/refreshtoken",refreshAccessToken)
-router.post("/logout",logout)
-router.get("/userapikey/:userId",decryptApikey)
+router.post("/logout",authMiddleware,logout)
+router.get("/userapikey/:userId",authMiddleware,decryptApikey)
 
 
 
